@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Node
   - Deleter
+  - Pacman
+  - Ghost
+  - Logic
+  - BackGround
   layers:
   - Default
   - TransparentFX
