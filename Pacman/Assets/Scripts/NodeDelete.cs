@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NodeDelete : MonoBehaviour
 {
-    public Rigidbody2D myRigidBody;
     //    // Start is called before the first frame update
     void Start()
     {

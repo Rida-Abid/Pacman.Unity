@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LogicScript : MonoBehaviour
+public class GameControllerScript : MonoBehaviour
 {
     public int Score;
     public Text Scoretext;
@@ -26,6 +26,7 @@ public class LogicScript : MonoBehaviour
     public void gameOver()
     {
         gameOverScreen.SetActive(true);
+
     }
 
 
