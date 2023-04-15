@@ -1,21 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 public class PacmanScript : MonoBehaviour
 {
     public Rigidbody2D myRigidBody;
-    public int speed;
     public int maxLives = 3;
     private float currentOffset;
     private float offset = 0.3f;
     public int currentLives;
+    public float speed = 4f;
     public KeyCode lastKeyClick;
     public bool pacmanIsAlive = true;
     public GameControllerScript controller;
     public LivesScript lives;
+    MovementScript movementController;
 
 
 
@@ -33,66 +32,41 @@ public class PacmanScript : MonoBehaviour
         //    }
         //}
 
-        myRigidBody = GetComponent<Rigidbody2D>();
-        controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
-        lives = GameObject.FindGameObjectWithTag("Lives").GetComponent<LivesScript>();
-        currentLives = maxLives;
-        speed = 1;
+        movementController = GetComponent<MovementScript>(); 
     }
 
     // Update is called once per frame
     void Update()
-    {
-        if (Input.GetKey(KeyCode.LeftArrow) && pacmanIsAlive)
+    {   
+        if(Input.GetKey(KeyCode.LeftArrow))
         {
-            lastKeyClick = KeyCode.LeftArrow;
-            myRigidBody.velocity = Vector2.left * speed;
+            movementController.SetDirection("left");
         }
 
-        if (Input.GetKey(KeyCode.RightArrow) && pacmanIsAlive)
+        if (Input.GetKey(KeyCode.RightArrow))
         {
-            lastKeyClick = KeyCode.RightArrow;
-            myRigidBody.velocity = Vector2.right * speed;
+            movementController.SetDirection("right");
         }
 
-        if (Input.GetKey(KeyCode.UpArrow) && pacmanIsAlive)
+        if (Input.GetKey(KeyCode.UpArrow))
         {
-            lastKeyClick = KeyCode.UpArrow;
-            myRigidBody.velocity = Vector2.up * speed;
+            movementController.SetDirection("up");
         }
 
-        if (Input.GetKey(KeyCode.DownArrow) && pacmanIsAlive)
+        if (Input.GetKey(KeyCode.DownArrow))
         {
-            lastKeyClick = KeyCode.DownArrow;
-            myRigidBody.velocity = Vector2.down * speed;
+            movementController.SetDirection("down");
         }
+
 
 
     }
+      
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Node")
-        {
-            Destroy(collision.gameObject);
-            controller.addScore();
-
-        }
-
-        if (collision.gameObject.CompareTag("Deleter") || collision.gameObject.CompareTag("BackGround"))
-        {
-            if(lastKeyClick == KeyCode.LeftArrow) 
-            { 
-                /// TODO Add RightArrow KeyClick
-            }
-
-            if (lastKeyClick == KeyCode.RightArrow)
-            {
-                /// TODO Add LeftArrow KeyClick
-            }
-
-            myRigidBody.velocity = Vector3.zero;
-        }
+       
+       
 
         if (collision.gameObject.CompareTag("Ghost"))
         {
@@ -110,7 +84,11 @@ public class PacmanScript : MonoBehaviour
                 gameObject.transform.position = Settings.PacmanStartPosition;
                 
             }
+            
         }
+
+
+
     }
 
 

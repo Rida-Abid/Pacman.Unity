@@ -6,57 +6,61 @@ public class AnimationController : MonoBehaviour
 {   public Animator animator;
     public SpriteRenderer sprite;
     public PacmanScript pacman;
+    MovementScript movementController;
    
     // Start is called before the first frame update
     void Awake()
     {
         animator = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
-        pacman = GetComponentInChildren<PacmanScript>();
+        pacman = GetComponent<PacmanScript>();
+        movementController = GetComponent<MovementScript>();
     }
 
     // Update is called once per frame
     void Update()
     {
         animator.SetBool("moving" , true);
-        if(Input.GetKeyDown(KeyCode.LeftArrow))
+        if(Input.GetKey(KeyCode.LeftArrow))
         {
-            pacman.myRigidBody.velocity = Vector2.left * pacman.speed;
+            movementController.SetDirection("left");
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
-            pacman.myRigidBody.velocity = Vector2.right * pacman.speed;
+            movementController.SetDirection("right");
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
-            pacman.myRigidBody.velocity = Vector2.up * pacman.speed;
+            movementController.SetDirection("up");
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
-            pacman.myRigidBody.velocity = Vector2.down * pacman.speed;
+            movementController.SetDirection("down");
         }
 
         bool flipX = false;
         bool flipY = false;
 
 
-        if (pacman.lastKeyClick == KeyCode.LeftArrow) {
+        if (movementController.previousMovingDirection == "left")
+        {
             animator.SetInteger("direction", 0);
         }
 
-        else if(pacman.lastKeyClick == KeyCode.RightArrow) {
+        else if (movementController.previousMovingDirection == "right")
+        {
             animator.SetInteger("direction", 0);
             flipX = true;
         }
 
-        else if (pacman.lastKeyClick == KeyCode.UpArrow)
+        else if (movementController.previousMovingDirection == "up")
         {
             animator.SetInteger("direction", 1);
         }
-        else if (pacman.lastKeyClick == KeyCode.DownArrow)
+        else if (movementController.previousMovingDirection == "down")
         {
             animator.SetInteger("direction", 1);
             flipY = true;
