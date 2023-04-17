@@ -6,7 +6,7 @@ public class MovementScript : MonoBehaviour
 {
     public GameObject currentNode;
     public string direction = "";
-    public float speed = 4f;
+    public float speed = 1f;
     public string previousMovingDirection = "";
 
 
@@ -33,9 +33,10 @@ public class MovementScript : MonoBehaviour
             {
                 direction = previousMovingDirection;
                 newNode = nodeController.GetNodeFromDirection(direction);
-                if( newNode != null ) 
-                { 
-                currentNode = newNode;}
+                if (newNode != null)
+                {
+                    currentNode = newNode;
+                }
 
             }
         }

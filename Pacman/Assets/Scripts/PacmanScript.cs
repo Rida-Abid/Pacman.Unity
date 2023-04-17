@@ -14,7 +14,7 @@ public class PacmanScript : MonoBehaviour
     public bool pacmanIsAlive = true;
     public GameControllerScript controller;
     public LivesScript lives;
-    MovementScript movementController;
+    public MovementScript movementController;
 
 
 
@@ -32,7 +32,8 @@ public class PacmanScript : MonoBehaviour
         //    }
         //}
 
-        movementController = GetComponent<MovementScript>(); 
+        movementController = GetComponentInParent<MovementScript>(); 
+        controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
     }
 
     // Update is called once per frame
@@ -65,8 +66,13 @@ public class PacmanScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       
-       
+
+        if (collision.tag == "Node")
+        {
+            collision.gameObject.SetActive(false);
+            controller.addScore();
+
+        }
 
         if (collision.gameObject.CompareTag("Ghost"))
         {
