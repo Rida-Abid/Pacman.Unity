@@ -8,6 +8,7 @@ public class MovementScript : MonoBehaviour
     public string direction = "";
     public float speed = 1f;
     public string previousMovingDirection = "";
+    public bool isGhost = false;
 
 
     // Start is called before the first frame update
@@ -22,6 +23,11 @@ public class MovementScript : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, currentNode.transform.position, speed* Time.deltaTime);
         if(transform.position.x == currentNode.transform.position.x && transform.position.y == currentNode.transform.position.y)
         {
+
+            if (isGhost)
+            {
+                GetComponent<GhostScript>().ReachedCenterOfNode(nodeController);
+            }
             GameObject newNode = nodeController.GetNodeFromDirection(direction);
             if( newNode != null)
             {

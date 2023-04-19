@@ -5098,11 +5098,10 @@ GameObject:
   m_Component:
   - component: {fileID: 184228545}
   - component: {fileID: 184228548}
-  - component: {fileID: 184228547}
   - component: {fileID: 184228546}
   m_Layer: 0
-  m_Name: InkyStartNode
-  m_TagString: Node
+  m_Name: LeftNode
+  m_TagString: Ghost Nodes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5115,7 +5114,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 184228544}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.07, y: -0.69, z: 0}
+  m_LocalPosition: {x: 0, y: -0.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5135,25 +5134,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canMoveLeft: 0
-  canMoveRight: 0
+  canMoveRight: 1
   canMoveUp: 0
   canMoveDown: 0
   leftNode: {fileID: 0}
-  rightNode: {fileID: 0}
+  rightNode: {fileID: 1725041142}
   upNode: {fileID: 0}
   downNode: {fileID: 0}
---- !u!114 &184228547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 184228544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1d180e6f2361024a9f97084e9fedbf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &184228548
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5884,13 +5871,14 @@ GameObject:
   - component: {fileID: 222435044}
   - component: {fileID: 222435043}
   - component: {fileID: 222435047}
+  - component: {fileID: 222435048}
   m_Layer: 0
   m_Name: Clyde
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &222435042
 Transform:
   m_ObjectHideFlags: 0
@@ -5966,6 +5954,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7dd60fd317f7a34fa43a090ec7a92df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ghostNode: 0
+  ghostName: 0
+  ghostNodeStart: {fileID: 0}
+  ghostNodeLeft: {fileID: 0}
+  ghostNodeRight: {fileID: 0}
+  ghostNodeCenter: {fileID: 0}
+  movementController: {fileID: 0}
+  StartingNode: {fileID: 0}
+  readyToLeaveHome: 0
 --- !u!212 &222435046
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6006,7 +6003,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 1b239b44e95d3384886c296780ca93c2, type: 3}
   m_Color: {r: 0.8773585, g: 0.654036, b: 0.17712708, a: 1}
   m_FlipX: 0
@@ -6034,6 +6031,28 @@ MonoBehaviour:
   direction: 
   speed: 1
   previousMovingDirection: 
+  isGhost: 0
+--- !u!114 &222435048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222435041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7dd60fd317f7a34fa43a090ec7a92df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostNode: 0
+  ghostName: 0
+  ghostNodeStart: {fileID: 0}
+  ghostNodeLeft: {fileID: 0}
+  ghostNodeRight: {fileID: 0}
+  ghostNodeCenter: {fileID: 0}
+  movementController: {fileID: 0}
+  StartingNode: {fileID: 0}
+  readyToLeaveHome: 0
 --- !u!1 &228597927
 GameObject:
   m_ObjectHideFlags: 0
@@ -6898,7 +6917,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 69511d2ea599f994c874881d6b85179d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -13330,6 +13349,7 @@ MonoBehaviour:
   direction: 
   speed: 2
   previousMovingDirection: 
+  isGhost: 0
 --- !u!114 &489892120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13510,7 +13530,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 69511d2ea599f994c874881d6b85179d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -15651,13 +15671,14 @@ GameObject:
   - component: {fileID: 564357229}
   - component: {fileID: 564357228}
   - component: {fileID: 564357232}
+  - component: {fileID: 564357233}
   m_Layer: 0
   m_Name: Inky
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &564357227
 Transform:
   m_ObjectHideFlags: 0
@@ -15666,7 +15687,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 564357226}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.11, y: -0.643, z: -1}
+  m_LocalPosition: {x: 0.04, y: -0.643, z: -1}
   m_LocalScale: {x: 0.16747536, y: 0.19303225, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15733,6 +15754,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7dd60fd317f7a34fa43a090ec7a92df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ghostNode: 0
+  ghostName: 1
+  ghostNodeStart: {fileID: 0}
+  ghostNodeLeft: {fileID: 0}
+  ghostNodeRight: {fileID: 0}
+  ghostNodeCenter: {fileID: 0}
+  movementController: {fileID: 0}
+  StartingNode: {fileID: 0}
+  readyToLeaveHome: 0
 --- !u!212 &564357231
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15773,7 +15803,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 1b239b44e95d3384886c296780ca93c2, type: 3}
   m_Color: {r: 0.23474543, g: 0.7118883, b: 0.7924528, a: 1}
   m_FlipX: 0
@@ -15801,6 +15831,28 @@ MonoBehaviour:
   direction: 
   speed: 1
   previousMovingDirection: 
+  isGhost: 0
+--- !u!114 &564357233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564357226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7dd60fd317f7a34fa43a090ec7a92df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostNode: 0
+  ghostName: 0
+  ghostNodeStart: {fileID: 0}
+  ghostNodeLeft: {fileID: 0}
+  ghostNodeRight: {fileID: 0}
+  ghostNodeCenter: {fileID: 0}
+  movementController: {fileID: 0}
+  StartingNode: {fileID: 0}
+  readyToLeaveHome: 0
 --- !u!1 &564626916
 GameObject:
   m_ObjectHideFlags: 0
@@ -25740,10 +25792,9 @@ GameObject:
   m_Component:
   - component: {fileID: 891275670}
   - component: {fileID: 891275673}
-  - component: {fileID: 891275672}
   - component: {fileID: 891275671}
   m_Layer: 0
-  m_Name: BlinkyStartNode
+  m_Name: StartNode
   m_TagString: Node
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25784,18 +25835,6 @@ MonoBehaviour:
   rightNode: {fileID: 0}
   upNode: {fileID: 0}
   downNode: {fileID: 0}
---- !u!114 &891275672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 891275669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1d180e6f2361024a9f97084e9fedbf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &891275673
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -28782,7 +28821,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 69511d2ea599f994c874881d6b85179d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -30607,6 +30646,7 @@ MonoBehaviour:
   Score: 0
   Scoretext: {fileID: 315983530}
   gameOverScreen: {fileID: 1662756923}
+  pacman: {fileID: 0}
 --- !u!1 &1108324224
 GameObject:
   m_ObjectHideFlags: 0
@@ -34189,7 +34229,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 69511d2ea599f994c874881d6b85179d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -38069,11 +38109,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1376268397}
   - component: {fileID: 1376268400}
-  - component: {fileID: 1376268399}
   - component: {fileID: 1376268398}
   m_Layer: 0
-  m_Name: ClydeStartNode
-  m_TagString: Node
+  m_Name: RightNode
+  m_TagString: Ghost Nodes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38105,26 +38144,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f13142fcdbe8c7b4cab12ba156537e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canMoveLeft: 0
+  canMoveLeft: 1
   canMoveRight: 0
   canMoveUp: 0
   canMoveDown: 0
-  leftNode: {fileID: 0}
+  leftNode: {fileID: 1725041142}
   rightNode: {fileID: 0}
   upNode: {fileID: 0}
   downNode: {fileID: 0}
---- !u!114 &1376268399
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1376268396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1d180e6f2361024a9f97084e9fedbf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &1376268400
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -48351,13 +48378,14 @@ GameObject:
   - component: {fileID: 1715668357}
   - component: {fileID: 1715668356}
   - component: {fileID: 1715668360}
+  - component: {fileID: 1715668361}
   m_Layer: 0
   m_Name: Pinky
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1715668355
 Transform:
   m_ObjectHideFlags: 0
@@ -48366,7 +48394,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1715668354}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6983, y: -0.5312, z: -1}
+  m_LocalPosition: {x: 0.63, y: -0.63, z: -1}
   m_LocalScale: {x: 0.17532821, y: 0.20088868, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -48433,6 +48461,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7dd60fd317f7a34fa43a090ec7a92df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ghostNode: 0
+  ghostName: 0
+  ghostNodeStart: {fileID: 0}
+  ghostNodeLeft: {fileID: 0}
+  ghostNodeRight: {fileID: 0}
+  ghostNodeCenter: {fileID: 0}
+  movementController: {fileID: 0}
+  StartingNode: {fileID: 0}
+  readyToLeaveHome: 0
 --- !u!212 &1715668359
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -48473,7 +48510,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 1b239b44e95d3384886c296780ca93c2, type: 3}
   m_Color: {r: 0.8679245, g: 0.42904943, b: 0.74367267, a: 1}
   m_FlipX: 0
@@ -48501,6 +48538,28 @@ MonoBehaviour:
   direction: 
   speed: 1
   previousMovingDirection: 
+  isGhost: 0
+--- !u!114 &1715668361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715668354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7dd60fd317f7a34fa43a090ec7a92df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostNode: 0
+  ghostName: 0
+  ghostNodeStart: {fileID: 0}
+  ghostNodeLeft: {fileID: 0}
+  ghostNodeRight: {fileID: 0}
+  ghostNodeCenter: {fileID: 0}
+  movementController: {fileID: 0}
+  StartingNode: {fileID: 0}
+  readyToLeaveHome: 0
 --- !u!1 &1724659838
 GameObject:
   m_ObjectHideFlags: 0
@@ -48604,11 +48663,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1725041143}
   - component: {fileID: 1725041146}
-  - component: {fileID: 1725041145}
   - component: {fileID: 1725041144}
   m_Layer: 0
-  m_Name: PinkyStartNode
-  m_TagString: Node
+  m_Name: CenterNode
+  m_TagString: Ghost Nodes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48621,7 +48679,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1725041142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.69, y: -0.62, z: 0}
+  m_LocalPosition: {x: 0.64, y: -0.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -48640,26 +48698,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f13142fcdbe8c7b4cab12ba156537e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canMoveLeft: 0
-  canMoveRight: 0
-  canMoveUp: 0
+  canMoveLeft: 1
+  canMoveRight: 1
+  canMoveUp: 1
   canMoveDown: 0
-  leftNode: {fileID: 0}
-  rightNode: {fileID: 0}
-  upNode: {fileID: 0}
+  leftNode: {fileID: 184228544}
+  rightNode: {fileID: 1376268396}
+  upNode: {fileID: 891275669}
   downNode: {fileID: 0}
---- !u!114 &1725041145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1725041142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1d180e6f2361024a9f97084e9fedbf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &1725041146
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -49821,10 +49867,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1759751762}
   - component: {fileID: 1759751764}
-  - component: {fileID: 1759751766}
   - component: {fileID: 1759751767}
   - component: {fileID: 1759751768}
   - component: {fileID: 1759751769}
+  - component: {fileID: 1759751770}
   m_Layer: 0
   m_Name: Blinky
   m_TagString: Ghost
@@ -49888,7 +49934,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 1b239b44e95d3384886c296780ca93c2, type: 3}
   m_Color: {r: 0.7264151, g: 0.21518332, b: 0.21518332, a: 1}
   m_FlipX: 0
@@ -49900,18 +49946,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1759751766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1759751761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7dd60fd317f7a34fa43a090ec7a92df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &1759751767
 Rigidbody2D:
   serializedVersion: 4
@@ -49971,10 +50005,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2d41b9631b3fa44abee48c58e675749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentNode: {fileID: 891275669}
+  currentNode: {fileID: 0}
   direction: 
   speed: 1
   previousMovingDirection: 
+  isGhost: 1
+--- !u!114 &1759751770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759751761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7dd60fd317f7a34fa43a090ec7a92df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostNode: 0
+  ghostName: 1
+  ghostNodeStart: {fileID: 891275669}
+  ghostNodeLeft: {fileID: 184228544}
+  ghostNodeRight: {fileID: 1376268396}
+  ghostNodeCenter: {fileID: 1725041142}
+  movementController: {fileID: 0}
+  StartingNode: {fileID: 0}
+  readyToLeaveHome: 0
 --- !u!1 &1762409855
 GameObject:
   m_ObjectHideFlags: 0

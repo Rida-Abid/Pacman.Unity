@@ -9,6 +9,7 @@ public class GameControllerScript : MonoBehaviour
     public int Score;
     public Text Scoretext;
     public GameObject gameOverScreen;
+    public GameObject pacman;
 
     // Start is called before the first frame update
     [ContextMenu("Increase Score")]
