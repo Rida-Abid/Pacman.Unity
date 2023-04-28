@@ -5963,6 +5963,8 @@ MonoBehaviour:
   movementController: {fileID: 0}
   StartingNode: {fileID: 0}
   readyToLeaveHome: 0
+  gameController: {fileID: 0}
+  Recreate: 0
 --- !u!212 &222435046
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6053,6 +6055,8 @@ MonoBehaviour:
   movementController: {fileID: 0}
   StartingNode: {fileID: 0}
   readyToLeaveHome: 0
+  gameController: {fileID: 0}
+  Recreate: 0
 --- !u!1 &228597927
 GameObject:
   m_ObjectHideFlags: 0
@@ -13325,7 +13329,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 489892116}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.42, y: -0.23, z: 0}
+  m_LocalPosition: {x: 0.11, y: -2.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13364,7 +13368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 765403901}
   sprite: {fileID: 765403899}
-  pacman: {fileID: 0}
+  pacman: {fileID: 765403902}
 --- !u!1 &495128182
 GameObject:
   m_ObjectHideFlags: 0
@@ -15763,6 +15767,8 @@ MonoBehaviour:
   movementController: {fileID: 0}
   StartingNode: {fileID: 0}
   readyToLeaveHome: 0
+  gameController: {fileID: 0}
+  Recreate: 0
 --- !u!212 &564357231
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15853,6 +15859,8 @@ MonoBehaviour:
   movementController: {fileID: 0}
   StartingNode: {fileID: 0}
   readyToLeaveHome: 0
+  gameController: {fileID: 0}
+  Recreate: 0
 --- !u!1 &564626916
 GameObject:
   m_ObjectHideFlags: 0
@@ -22376,7 +22384,7 @@ MonoBehaviour:
   pacmanIsAlive: 1
   controller: {fileID: 1107009089}
   lives: {fileID: 1555470609}
-  movementController: {fileID: 0}
+  movementController: {fileID: 489892118}
 --- !u!1 &770739720
 GameObject:
   m_ObjectHideFlags: 0
@@ -25969,7 +25977,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 893598782}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.67, y: 0.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -30646,7 +30654,7 @@ MonoBehaviour:
   Score: 0
   Scoretext: {fileID: 315983530}
   gameOverScreen: {fileID: 1662756923}
-  pacman: {fileID: 0}
+  pacman: {fileID: 765403895}
 --- !u!1 &1108324224
 GameObject:
   m_ObjectHideFlags: 0
@@ -48470,6 +48478,8 @@ MonoBehaviour:
   movementController: {fileID: 0}
   StartingNode: {fileID: 0}
   readyToLeaveHome: 0
+  gameController: {fileID: 0}
+  Recreate: 0
 --- !u!212 &1715668359
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -48560,6 +48570,8 @@ MonoBehaviour:
   movementController: {fileID: 0}
   StartingNode: {fileID: 0}
   readyToLeaveHome: 0
+  gameController: {fileID: 0}
+  Recreate: 0
 --- !u!1 &1724659838
 GameObject:
   m_ObjectHideFlags: 0
@@ -49886,7 +49898,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1759751761}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.65, y: 0.3253, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 0.16747536, y: 0.18519065, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -49977,7 +49989,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -50023,14 +50035,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostNode: 0
-  ghostName: 1
+  ghostName: 0
   ghostNodeStart: {fileID: 891275669}
   ghostNodeLeft: {fileID: 184228544}
   ghostNodeRight: {fileID: 1376268396}
   ghostNodeCenter: {fileID: 1725041142}
   movementController: {fileID: 0}
   StartingNode: {fileID: 0}
-  readyToLeaveHome: 0
+  readyToLeaveHome: 1
+  gameController: {fileID: 0}
+  Recreate: 0
 --- !u!1 &1762409855
 GameObject:
   m_ObjectHideFlags: 0
@@ -52830,7 +52844,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866464256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.66, y: 0.85, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

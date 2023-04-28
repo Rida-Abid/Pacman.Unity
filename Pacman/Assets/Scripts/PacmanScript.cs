@@ -34,6 +34,7 @@ public class PacmanScript : MonoBehaviour
 
         movementController = GetComponentInParent<MovementScript>(); 
         controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
+        currentLives = maxLives;
     }
 
     // Update is called once per frame
@@ -105,7 +106,7 @@ public class PacmanScript : MonoBehaviour
 
 public static class Settings
 {
-    public static readonly Vector3 PacmanStartPosition = new Vector3(-0.172f, -0.65f, -1f);
+    public static readonly Vector3 PacmanStartPosition = new Vector3(0.108f, -2.416f, 0f);
 
 }
 
