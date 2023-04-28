@@ -11,7 +11,25 @@ public class GameControllerScript : MonoBehaviour
     public GameObject gameOverScreen;
     public GameObject pacman;
 
+    public GameObject ghostNodeStart;
+    public GameObject ghostNodeLeft;
+    public GameObject ghostNodeRight;
+    public GameObject ghostNodeCenter;
+
+    public enum GhostMode
+    {
+        chase, scatter
+    }
+    
+    public GhostMode currentGhostMode;
+
     // Start is called before the first frame update
+    void Awake()
+    {
+        currentGhostMode = GhostMode.chase;
+        ghostNodeStart.GetComponent<NodeController>().isGhostStartingNode = true;
+    }
+
     [ContextMenu("Increase Score")]
     public void addScore()
     {

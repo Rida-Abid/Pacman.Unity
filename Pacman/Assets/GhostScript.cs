@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.XR;
 using UnityEngine;
 
 public class GhostScript : MonoBehaviour
@@ -41,9 +42,15 @@ public class GhostScript : MonoBehaviour
 
     public bool Recreate = false;
 
+    public bool isFrightened = false;
+
+    public GameObject[] scatterNodes;
+    public int scatterNodeIndex;
+
     // Start is called before the first frame update
     void Awake()
     {
+        scatterNodeIndex = 0;
         gameController = GameObject.Find("GameController").GetComponent<GameControllerScript>();
 
         movementController = GetComponent<MovementScript>();
@@ -83,6 +90,7 @@ public class GhostScript : MonoBehaviour
     {
         if(Recreate == true)
         {
+            readyToLeaveHome = false;
             ghostNode = GhostNodes.Recreate;
             Recreate = false;
         }
@@ -90,13 +98,41 @@ public class GhostScript : MonoBehaviour
 
     public void ReachedCenterOfNode(NodeController nodeController)
     {
-        if(ghostNode == GhostNodes.MovingBetweenNodes)
+        
+        if (ghostNode == GhostNodes.MovingBetweenNodes)
         {
-            if(ghostName == GhostName.Blinky)
+
+            if (gameController.currentGhostMode == GameControllerScript.GhostMode.scatter)
             {
-                DetermineBlinkyDirection();
+                if(transform.position.x == scatterNodes[scatterNodeIndex].transform.position.x && transform.position.y == scatterNodes[scatterNodeIndex].transform.position.y)
+                {
+                    scatterNodeIndex++;
+
+                    if (scatterNodeIndex == scatterNodes.Length - 1)
+                    {
+                        scatterNodeIndex = 0;
+                    }
+                }
+                string direction = GetClosestDirection(scatterNodes[scatterNodeIndex].transform.position);
+                movementController.SetDirection(direction);
+
             }
+            else if (isFrightened)
+            {
+
+            }
+            else
+            {
+                if (ghostName == GhostName.Blinky)
+                {
+                    DetermineBlinkyDirection();
+                }
+            }
+                
         }
+        
+
+       
         else if(ghostNode == GhostNodes.Recreate)
         {
             string direction = "";
@@ -122,17 +158,17 @@ public class GhostScript : MonoBehaviour
                 }
             }
 
-            else if (transform.position.x == ghostNodeLeft.transform.position.x && transform.position.y == ghostNodeLeft.transform.position.y)
+            else if ((transform.position.x == ghostNodeLeft.transform.position.x && transform.position.y == ghostNodeLeft.transform.position.y)
+                || (transform.position.x == ghostNodeRight.transform.position.x && transform.position.y == ghostNodeRight.transform.position.y))
             {
-                direction = "down";
+                ghostNode = recreateState;
             }
 
-            else if (transform.position.x == ghostNodeStart.transform.position.x && transform.position.y == ghostNodeStart.transform.position.y)
+            else 
             {
-                direction = "down";
+                direction = GetClosestDirection(ghostNodeStart.transform.position);
             }
 
-            direction = GetClosestDirection(ghostNodeStart.transform.position);
             movementController.SetDirection(direction);
         }
         else

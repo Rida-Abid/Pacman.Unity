@@ -24,9 +24,15 @@ public class MovementScript : MonoBehaviour
         if(transform.position.x == currentNode.transform.position.x && transform.position.y == currentNode.transform.position.y)
         {
 
+
             if (isGhost)
             {
                 GetComponent<GhostScript>().ReachedCenterOfNode(nodeController);
+            }
+
+            if(nodeController.isGhostStartingNode && direction == "down" && (!isGhost || GetComponent<GhostScript>().ghostNode != GhostScript.GhostNodes.Recreate)) 
+            {
+                direction = previousMovingDirection;
             }
             GameObject newNode = nodeController.GetNodeFromDirection(direction);
             if( newNode != null)

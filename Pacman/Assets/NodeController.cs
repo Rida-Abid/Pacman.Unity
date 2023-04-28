@@ -16,6 +16,10 @@ public class NodeController : MonoBehaviour
     public GameObject upNode;
     public GameObject downNode;
 
+    public bool isGhostStartingNode = false;
+
+    public GameControllerScript controller;
+
 
     // Start is called before the first frame update
     void Start()
@@ -82,6 +86,12 @@ public class NodeController : MonoBehaviour
                 leftNode = hitsLeft[i].collider.gameObject;
 
             }
+        }
+        
+        if(isGhostStartingNode) 
+        {
+            canMoveDown = true;
+            downNode = controller.ghostNodeCenter;
         }
 
 
