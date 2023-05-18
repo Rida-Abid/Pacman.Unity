@@ -12,9 +12,11 @@ public class PacmanScript : MonoBehaviour
     public float speed = 4f;
     public KeyCode lastKeyClick;
     public bool pacmanIsAlive = true;
+    public GameObject Pacman;
     public GameControllerScript controller;
     public LivesScript lives;
     public MovementScript movementController;
+  
 
 
 
@@ -32,15 +34,15 @@ public class PacmanScript : MonoBehaviour
         //    }
         //}
 
-        movementController = GetComponentInParent<MovementScript>(); 
+        movementController = GetComponentInParent<MovementScript>();
         controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
         currentLives = maxLives;
     }
 
     // Update is called once per frame
     void Update()
-    {   
-        if(Input.GetKey(KeyCode.LeftArrow))
+    {
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             movementController.SetDirection("left");
         }
@@ -63,45 +65,40 @@ public class PacmanScript : MonoBehaviour
 
 
     }
-      
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
-        if (collision.tag == "Node")
-        {
-            collision.gameObject.SetActive(false);
-            controller.addScore();
-
-        }
-
         if (collision.gameObject.CompareTag("Ghost"))
         {
-
-            currentLives--;
-
-            if (currentLives == 0)
+            currentLives --;
+           
+            if (currentLives <= 0)
             {
                 controller.gameOver();
                 pacmanIsAlive = false;
-                
+                controller.siren.Pause();
+                controller.death.Play();
+                controller.PauseGame();
+                Pacman.transform.position = Settings.PacmanStartPosition;
             }
-            else if (currentLives > 0)
+            else
             {
-                gameObject.transform.position = Settings.PacmanStartPosition;
-                
+                Pacman.transform.position = Settings.PacmanStartPosition;
+                //movementController.pacmanStartNode = movementController.currentNode; 
             }
-            
+
+
         }
+
+
+
+
+
 
 
 
     }
-
-
-
-    
-
 }
 
 public static class Settings

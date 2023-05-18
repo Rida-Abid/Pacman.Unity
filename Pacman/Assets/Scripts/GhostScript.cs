@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -39,6 +40,7 @@ public class GhostScript : MonoBehaviour
     public bool readyToLeaveHome = false;
 
     public GameControllerScript gameController;
+    public PacmanScript pacmanScript;
 
     public bool Recreate = false;
 
@@ -47,11 +49,21 @@ public class GhostScript : MonoBehaviour
     public GameObject[] scatterNodes;
     public int scatterNodeIndex;
 
+    public Animator animator;
+    public SpriteRenderer ghostSprite;
+    public SpriteRenderer eyesSprite;
+    public Color color;
+
+
+
     // Start is called before the first frame update
     void Awake()
     {
+        ghostSprite = GetComponent<SpriteRenderer>();
+        eyesSprite = GetComponent<SpriteRenderer>();
         scatterNodeIndex = 0;
         gameController = GameObject.Find("GameController").GetComponent<GameControllerScript>();
+        pacmanScript = GameObject.Find("Pacman").GetComponent<PacmanScript>();
 
         movementController = GetComponent<MovementScript>();
 
@@ -83,12 +95,34 @@ public class GhostScript : MonoBehaviour
 
         movementController.currentNode = StartingNode;
         transform.position = StartingNode.transform.position;
+        animator = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Recreate == true)
+        if (isFrightened)
+        {
+            animator.SetBool("frightened", true);
+            eyesSprite.enabled = false;
+            ghostSprite.color = new Color(255, 255, 255, 255);
+        }
+        else
+        {
+            animator.SetBool("frightened", false);
+            ghostSprite.color = color;
+        }
+        animator.SetBool("moving", true);
+
+        if (!gameController.gameIsRunning)
+        {
+            return;
+        }
+
+       
+ 
+        if (Recreate == true)
         {
             readyToLeaveHome = false;
             ghostNode = GhostNodes.Recreate;
@@ -101,31 +135,35 @@ public class GhostScript : MonoBehaviour
         
         if (ghostNode == GhostNodes.MovingBetweenNodes)
         {
-
             if (gameController.currentGhostMode == GameControllerScript.GhostMode.scatter)
             {
-                if(transform.position.x == scatterNodes[scatterNodeIndex].transform.position.x && transform.position.y == scatterNodes[scatterNodeIndex].transform.position.y)
-                {
-                    scatterNodeIndex++;
-
-                    if (scatterNodeIndex == scatterNodes.Length - 1)
-                    {
-                        scatterNodeIndex = 0;
-                    }
-                }
-                string direction = GetClosestDirection(scatterNodes[scatterNodeIndex].transform.position);
-                movementController.SetDirection(direction);
-
+                DetermineGhostScatterModeDirection();
             }
             else if (isFrightened)
             {
-
+                string direction = GetRandomDirection();
+                movementController.SetDirection(direction);
             }
             else
             {
                 if (ghostName == GhostName.Blinky)
                 {
                     DetermineBlinkyDirection();
+                }
+
+                else if (ghostName == GhostName.Inky)
+                {
+                    DetermineInkyDirection();
+                }
+
+                else if (ghostName == GhostName.Pinky)
+                {
+                    DeterminePinkyDirection();
+                }
+
+                else if (ghostName == GhostName.Clyde)
+                {
+                    DetermineClydeDirection();
                 }
             }
                 
@@ -205,6 +243,53 @@ public class GhostScript : MonoBehaviour
 
     }
 
+    string GetRandomDirection()
+    {
+        List<string> possibleDirections = new List<string>();
+        NodeController nodeController = movementController.currentNode.GetComponent<NodeController>();
+
+        if(nodeController.canMoveDown && movementController.previousMovingDirection != "up")
+        {
+            possibleDirections.Add("down");
+        }
+
+        if (nodeController.canMoveUp && movementController.previousMovingDirection != "down")
+        {
+            possibleDirections.Add("up");
+        }
+
+        if (nodeController.canMoveLeft && movementController.previousMovingDirection != "right")
+        {
+            possibleDirections.Add("left");
+        }
+
+        if (nodeController.canMoveRight && movementController.previousMovingDirection != "left")
+        {
+            possibleDirections.Add("right");
+        }
+
+        string direction = "";
+        int randomDirectionsIndex = UnityEngine.Random.Range(0, possibleDirections.Count - 1);
+        direction = possibleDirections[randomDirectionsIndex];
+        return direction;
+    }
+
+    void DetermineGhostScatterModeDirection()
+    {
+       
+            if (transform.position.x == scatterNodes[scatterNodeIndex].transform.position.x && transform.position.y == scatterNodes[scatterNodeIndex].transform.position.y)
+            {
+                scatterNodeIndex++;
+
+                if (scatterNodeIndex == scatterNodes.Length - 1)
+                {
+                    scatterNodeIndex = 0;
+                }
+            }
+            string direction = GetClosestDirection(scatterNodes[scatterNodeIndex].transform.position);
+            movementController.SetDirection(direction);
+                
+    }
     void DetermineBlinkyDirection()
     {
         string direction = GetClosestDirection(gameController.pacman.transform.position);
@@ -213,16 +298,88 @@ public class GhostScript : MonoBehaviour
 
     void DeterminePinkyDirection()
     {
+        string pacmanDirection = gameController.pacman.GetComponent<MovementScript>().previousMovingDirection;
+        float distanceBetweenNodes = 0.35f;
 
+        Vector2 target = gameController.pacman.transform.position;
+        if(pacmanDirection == "left")
+        {
+            target.x -= distanceBetweenNodes * 2;
+        }
+
+        else if (pacmanDirection == "right")
+        {
+            target.x += distanceBetweenNodes * 2;
+        }
+
+        else if (pacmanDirection == "up")
+        {
+            target.y += distanceBetweenNodes * 2;
+        }
+
+        else if (pacmanDirection == "down")
+        {
+            target.y -= distanceBetweenNodes * 2;
+        }
+
+        string direction = GetClosestDirection(target);
+        movementController.SetDirection(direction);
     }
 
     void DetermineInkyDirection()
     {
+        string pacmanDirection = gameController.pacman.GetComponent<MovementScript>().previousMovingDirection;
+        float distanceBetweenNodes = 0.35f;
 
+        Vector2 target = gameController.pacman.transform.position;
+        if (pacmanDirection == "left")
+        {
+            target.x -= distanceBetweenNodes * 2;
+        }
+
+        else if (pacmanDirection == "right")
+        {
+            target.x += distanceBetweenNodes * 2;
+        }
+
+        else if (pacmanDirection == "up")
+        {
+            target.y += distanceBetweenNodes * 2;
+        }
+
+        else if (pacmanDirection == "down")
+        {
+            target.y -= distanceBetweenNodes * 2;
+        }
+
+        GameObject blinkyGhost = gameController.blinkyGhost;
+        float xDistance = target.x - blinkyGhost.transform.position.x;
+        float yDistance = target.y - blinkyGhost.transform.position.y;
+
+        Vector2 inkytarget = new Vector2 (target.x + xDistance, target.y + yDistance);
+
+        string direction = GetClosestDirection(inkytarget);
+        movementController.SetDirection(direction);
     }
 
     void DetermineClydeDirection()
     {
+        float distance = Vector2.Distance(gameController.pacman.transform.position, transform.position);
+        float distanceBetweenNodes = 0.35f;
+
+        if(distance < 0)
+        {
+            distance *= -1;
+        }
+
+        if ( distance <= distanceBetweenNodes* 8) 
+        {
+            DetermineBlinkyDirection();
+        }
+        else
+        {
+            DetermineGhostScatterModeDirection();
+        }
 
     }
 
@@ -279,4 +436,309 @@ public class GhostScript : MonoBehaviour
 
         return newDirection;
     }
+    public IEnumerable Setup()
+    {
+        animator.SetBool("moving", false);
+        yield break;
+    }
+
+  
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

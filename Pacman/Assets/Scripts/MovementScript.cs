@@ -9,6 +9,8 @@ public class MovementScript : MonoBehaviour
     public float speed = 1f;
     public string previousMovingDirection = "";
     public bool isGhost = false;
+    public GameObject pacmanStartNode;
+
 
 
     // Start is called before the first frame update

@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class NodeController : MonoBehaviour
 {
+
     public bool canMoveLeft = false;
     public bool canMoveRight = false;
     public bool canMoveUp = false;
@@ -20,10 +18,22 @@ public class NodeController : MonoBehaviour
 
     public GameControllerScript controller;
 
+    public bool isPelletNode = false;
+    public bool hasPellet = false;
 
+    public SpriteRenderer pelletSprite;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        if (transform.childCount > 0)
+        {
+            isPelletNode = true;
+            hasPellet = true;
+            pelletSprite = GetComponentInChildren<SpriteRenderer>();
+            controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
+
+        }
+
         RaycastHit2D[] hitsDown;
 
         hitsDown = Physics2D.RaycastAll(transform.position, Vector2.down);
@@ -87,8 +97,8 @@ public class NodeController : MonoBehaviour
 
             }
         }
-        
-        if(isGhostStartingNode) 
+
+        if (isGhostStartingNode)
         {
             canMoveDown = true;
             downNode = controller.ghostNodeCenter;
@@ -100,10 +110,10 @@ public class NodeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public GameObject GetNodeFromDirection( string direction )
+    public GameObject GetNodeFromDirection(string direction)
     {
         if (direction == "left" && canMoveLeft)
         {
@@ -127,5 +137,15 @@ public class NodeController : MonoBehaviour
 
         else
             return null;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Pacman" && isPelletNode)
+        {
+            hasPellet = false;
+            pelletSprite.enabled = false;
+            controller.addScore();
+        }
     }
 }
